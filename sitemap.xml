@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://blog.prozin.xyz/categories/index.html</loc>
+    
+    <lastmod>2018-01-06T12:51:59.866Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://blog.prozin.xyz/tags/index.html</loc>
+    
+    <lastmod>2018-01-06T12:51:48.991Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://blog.prozin.xyz/about/index.html</loc>
     
     <lastmod>2018-01-06T12:49:46.451Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.prozin.xyz/categories/page.html</loc>
-    
-    <lastmod>2018-01-06T12:46:20.237Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://blog.prozin.xyz/tags/tags.html</loc>
-    
-    <lastmod>2018-01-06T12:34:19.363Z</lastmod>
     
   </url>
   
