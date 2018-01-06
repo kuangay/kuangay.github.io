@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
-    <url>%2F2018%2F01%2F06%2Fphono%2F</url>
-    <content type="text"><![CDATA[title: 我的阅历date: 2085-01-16 07:33:44tags: [hexo]photos: http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg]]></content>
+    <title><![CDATA[我的阅历]]></title>
+    <url>%2F2085%2F01%2F16%2Fphono%2F</url>
+    <content type="text"><![CDATA[photos: http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg]]></content>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
   </entry>
   <entry>
     <title><![CDATA[MarkDownPad 2实用教程]]></title>

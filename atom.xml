@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://igeeker.io/"/>
-  <updated>2018-01-06T14:36:59.908Z</updated>
+  <updated>2018-01-06T15:03:12.276Z</updated>
   <id>https://igeeker.io/</id>
   
   <author>
@@ -17,25 +17,27 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title></title>
-    <link href="https://igeeker.io/2018/01/06/phono/"/>
-    <id>https://igeeker.io/2018/01/06/phono/</id>
-    <published>2018-01-06T14:36:59.908Z</published>
-    <updated>2018-01-06T14:36:59.908Z</updated>
+    <title>我的阅历</title>
+    <link href="https://igeeker.io/2085/01/16/phono/"/>
+    <id>https://igeeker.io/2085/01/16/phono/</id>
+    <published>2085-01-15T23:33:44.000Z</published>
+    <updated>2018-01-06T15:03:12.276Z</updated>
     
-    <content type="html"><![CDATA[<p>title: 我的阅历<br>date: 2085-01-16 07:33:44<br>tags: [hexo]<br>photos:</p><ul><li><a href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" target="_blank" rel="noopener">http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg</a></li><li><a href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" target="_blank" rel="noopener">http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg</a></li></ul>]]></content>
+    <content type="html"><![CDATA[<p>photos:</p><ul><li><a href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg" target="_blank" rel="noopener">http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg</a></li><li><a href="http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg" target="_blank" rel="noopener">http://bruce.u.qiniudn.com/2013/11/27/reading/photos-1.jpg</a></li></ul>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;title: 我的阅历&lt;br&gt;date: 2085-01-16 07:33:44&lt;br&gt;tags: [hexo]&lt;br&gt;photos:&lt;/p&gt;
+        &lt;p&gt;photos:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;http://bruce.u.qiniudn.com/2013/11/27/reading/p
+&lt;li&gt;&lt;a href=&quot;http://bruce.u.qiniudn.com/2013/11/27/reading/photos-0.jpg&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;http://bruce.u.q
       
     
     </summary>
     
+    
+      <category term="hexo" scheme="https://igeeker.io/tags/hexo/"/>
     
   </entry>
   
