@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Cappuccino</title>
+  <title>测试极客</title>
   
   <subtitle>不忘初心 方得始终</subtitle>
   <link href="/atom.xml" rel="self"/>
@@ -10,7 +10,7 @@
   <id>http://blog.prozin.xyz/</id>
   
   <author>
-    <name>测试极客</name>
+    <name>Cappuccino</name>
     
   </author>
   
