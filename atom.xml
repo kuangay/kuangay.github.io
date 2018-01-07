@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://igeeker.io/"/>
-  <updated>2018-01-07T14:38:06.388Z</updated>
+  <updated>2018-01-07T14:42:04.132Z</updated>
   <id>https://igeeker.io/</id>
   
   <author>
@@ -17,18 +17,20 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>美图</title>
+    <title>每周美图(一)</title>
     <link href="https://igeeker.io/2018/01/07/phono/"/>
     <id>https://igeeker.io/2018/01/07/phono/</id>
     <published>2018-01-07T09:33:44.000Z</published>
-    <updated>2018-01-07T14:38:06.388Z</updated>
+    <updated>2018-01-07T14:42:04.132Z</updated>
     
     <summary type="html">
     
     </summary>
     
+      <category term="美图" scheme="https://igeeker.io/categories/%E7%BE%8E%E5%9B%BE/"/>
     
-      <category term="hexo" scheme="https://igeeker.io/tags/hexo/"/>
+    
+      <category term="欧美" scheme="https://igeeker.io/tags/%E6%AC%A7%E7%BE%8E/"/>
     
   </entry>
   

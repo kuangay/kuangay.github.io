@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[美图]]></title>
+    <title><![CDATA[每周美图(一)]]></title>
     <url>%2F2018%2F01%2F07%2Fphono%2F</url>
     <content type="text"></content>
+      <categories>
+        <category>美图</category>
+      </categories>
       <tags>
-        <tag>hexo</tag>
+        <tag>欧美</tag>
       </tags>
   </entry>
   <entry>
