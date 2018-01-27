@@ -88,22 +88,22 @@
 
 
 
-<meta name="description" content="背景最近在研究1234567891011# 实时监控官网说明文档中有关于实时监控章节的介绍，有兴趣的同学可以直接去官网看[Realtime monitoring](https://gatling.io/docs/current/realtime_monitoring/)，本文要介绍的部署方式：influxdb + grafana采用docker部署，更方便便捷。&amp;gt; 博主服务器环境为cento">
+<meta name="description" content="背景最近在研究Gatling，这是一款发布很久但在国内使用范围不是很广泛的压测工具。研究这款工具的理由很简单，很喜欢生成的html报告，本文会提供几张截图给大家一个直观感受，但这不是本文的重点，Gatling官网下载的版本不支持实时监控，只有在simulations结束后，打开html报告才能看到数据图表，这不符合我们边压测边看图表的习惯。 实时监控官网说明文档中有关于实时监控章节的介绍，有兴趣的">
 <meta name="keywords" content="Gatling,influxdb,grafana">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Gatling实时监控配置">
 <meta property="og:url" content="https://igeeker.io/2018/01/27/Gatling实时监控配置/index.html">
 <meta property="og:site_name" content="测试极客">
-<meta property="og:description" content="背景最近在研究1234567891011# 实时监控官网说明文档中有关于实时监控章节的介绍，有兴趣的同学可以直接去官网看[Realtime monitoring](https://gatling.io/docs/current/realtime_monitoring/)，本文要介绍的部署方式：influxdb + grafana采用docker部署，更方便便捷。&amp;gt; 博主服务器环境为cento">
+<meta property="og:description" content="背景最近在研究Gatling，这是一款发布很久但在国内使用范围不是很广泛的压测工具。研究这款工具的理由很简单，很喜欢生成的html报告，本文会提供几张截图给大家一个直观感受，但这不是本文的重点，Gatling官网下载的版本不支持实时监控，只有在simulations结束后，打开html报告才能看到数据图表，这不符合我们边压测边看图表的习惯。 实时监控官网说明文档中有关于实时监控章节的介绍，有兴趣的">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.imgur.com/IeIHL8y.png">
 <meta property="og:image" content="https://i.imgur.com/lrTMzq8.png">
 <meta property="og:image" content="https://i.imgur.com/buXGnbQ.png">
 <meta property="og:image" content="https://i.imgur.com/iUMRtqd.png">
-<meta property="og:updated_time" content="2018-01-27T07:20:14.000Z">
+<meta property="og:updated_time" content="2018-01-27T07:23:46.235Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gatling实时监控配置">
-<meta name="twitter:description" content="背景最近在研究1234567891011# 实时监控官网说明文档中有关于实时监控章节的介绍，有兴趣的同学可以直接去官网看[Realtime monitoring](https://gatling.io/docs/current/realtime_monitoring/)，本文要介绍的部署方式：influxdb + grafana采用docker部署，更方便便捷。&amp;gt; 博主服务器环境为cento">
+<meta name="twitter:description" content="背景最近在研究Gatling，这是一款发布很久但在国内使用范围不是很广泛的压测工具。研究这款工具的理由很简单，很喜欢生成的html报告，本文会提供几张截图给大家一个直观感受，但这不是本文的重点，Gatling官网下载的版本不支持实时监控，只有在simulations结束后，打开html报告才能看到数据图表，这不符合我们边压测边看图表的习惯。 实时监控官网说明文档中有关于实时监控章节的介绍，有兴趣的">
 <meta name="twitter:image" content="https://i.imgur.com/IeIHL8y.png">
 
 
@@ -352,7 +352,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-27T15:20:40+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-27T15:23:46+08:00">
                 2018-01-27
               </time>
             
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,276
+                  1,384
                 </span>
               
 
@@ -454,9 +454,20 @@
       
 
       
-        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近在研究<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># 实时监控</span><br><span class="line">官网说明文档中有关于实时监控章节的介绍，有兴趣的同学可以直接去官网看[Realtime monitoring](https://gatling.io/docs/current/realtime_monitoring/)，本文要介绍的部署方式：influxdb + grafana采用docker部署，更方便便捷。</span><br><span class="line"></span><br><span class="line">&gt; 博主服务器环境为centos7，如为ubuntu、mac等环境，请自行研究，应该大致上差不多</span><br><span class="line"></span><br><span class="line"># 部署</span><br><span class="line"></span><br><span class="line">### 安装镜像</span><br><span class="line">在安装influxdb和grafana镜像前，先安装docker环境和docker-compose环境。Docker-Compose是一个部署多个容器的简单但是非常必要的工具</span><br><span class="line">* docker安装</span><br></pre></td></tr></table></figure></p>
-<p>[root@host-10-200-143-10 local]# yum -y install docker<br><figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* docker-compose安装</span><br><span class="line"></span><br><span class="line">安装Docker-Compose之前，请先安装 <span class="keyword">python</span>-pip。</span><br><span class="line"><span class="number">1</span>、首先检查linux有没有安装<span class="keyword">python</span>-pip包，终端执行 pip -V</span><br></pre></td></tr></table></figure></p>
-<p>[root@vm-50-151 network-scripts]# pip -V<br>-bash: pip: command not found<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">没有python-pip包就执行命令 yum -y <span class="keyword">install</span> epel-<span class="keyword">release</span></span><br></pre></td></tr></table></figure></p>
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>最近在研究Gatling，这是一款发布很久但在国内使用范围不是很广泛的压测工具。研究这款工具的理由很简单，很喜欢生成的html报告，本文会提供几张截图给大家一个直观感受，但这不是本文的重点，Gatling官网下载的版本不支持实时监控，只有在simulations结束后，打开html报告才能看到数据图表，这不符合我们边压测边看图表的习惯。</p>
+<h1 id="实时监控"><a href="#实时监控" class="headerlink" title="实时监控"></a>实时监控</h1><p>官网说明文档中有关于实时监控章节的介绍，有兴趣的同学可以直接去官网看<a href="https://gatling.io/docs/current/realtime_monitoring/" target="_blank" rel="noopener">Realtime monitoring</a>，本文要介绍的部署方式：influxdb + grafana采用docker部署，更方便便捷。</p>
+<blockquote>
+<p>博主服务器环境为centos7，如为ubuntu、mac等环境，请自行研究，应该大致上差不多</p>
+</blockquote>
+<h1 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h1><h3 id="安装镜像"><a href="#安装镜像" class="headerlink" title="安装镜像"></a>安装镜像</h3><p>在安装influxdb和grafana镜像前，先安装docker环境和docker-compose环境。Docker-Compose是一个部署多个容器的简单但是非常必要的工具</p>
+<ul>
+<li>docker安装</li>
+</ul>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@host<span class="number">-10</span><span class="number">-200</span><span class="number">-143</span><span class="number">-10</span> local]# yum -y install docker</span><br></pre></td></tr></table></figure>
+<ul>
+<li>docker-compose安装</li>
+</ul>
+<p>安装Docker-Compose之前，请先安装 python-pip。<br>1、首先检查linux有没有安装python-pip包，终端执行 pip -V<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vm<span class="number">-50</span><span class="number">-151</span> network-scripts]# pip -V</span><br><span class="line">-bash: pip: command not found</span><br><span class="line">``` </span><br><span class="line">没有python-pip包就执行命令 yum -y install epel-release</span><br></pre></td></tr></table></figure></p>
 <p>[root@vm-50-151 network-scripts]# yum -y install epel-release<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span>、执行成功之后，再次执行yum -y <span class="keyword">install</span> python-pip</span><br></pre></td></tr></table></figure></p>
 <p>[root@vm-50-151 network-scripts]# yum install python-pip<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4、对安装好的pip进行升级 pip <span class="keyword">install</span> <span class="comment">--upgrade pip</span></span><br></pre></td></tr></table></figure></p>
 <p>[root@vm-50-151 network-scripts]# pip install –upgrade pip<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">至此，pip安装好了，执行pip -V 再次检查pip环境。</span><br></pre></td></tr></table></figure></p>
@@ -807,7 +818,7 @@ environment:
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#name"><span class="nav-number">1.1.</span> <span class="nav-text">name</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#name-1"><span class="nav-number">1.2.</span> <span class="nav-text">name</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实时监控"><span class="nav-number">2.</span> <span class="nav-text">实时监控</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#部署"><span class="nav-number">3.</span> <span class="nav-text">部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装镜像"><span class="nav-number">3.0.1.</span> <span class="nav-text">安装镜像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#name"><span class="nav-number">3.1.</span> <span class="nav-text">name</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#name-1"><span class="nav-number">3.2.</span> <span class="nav-text">name</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -842,7 +853,7 @@ environment:
     
       <span class="post-meta-item-text">Site words total count&#58;</span>
     
-    <span title="Site words total count">7.0k</span>
+    <span title="Site words total count">7.1k</span>
   
 </div>
 
@@ -876,7 +887,7 @@ environment:
 
 <div class="theme-info">
   <div class="powered-by"></div>
-  <i class="fa fa-pencil"></i><span class="post-count" style="display: inline;"> 博客全站共 7.0k 字</span>
+  <i class="fa fa-pencil"></i><span class="post-count" style="display: inline;"> 博客全站共 7.1k 字</span>
 </div>
 
         
