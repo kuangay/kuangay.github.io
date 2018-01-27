@@ -100,7 +100,7 @@
 <meta property="og:image" content="https://i.imgur.com/lrTMzq8.png">
 <meta property="og:image" content="https://i.imgur.com/buXGnbQ.png">
 <meta property="og:image" content="https://i.imgur.com/iUMRtqd.png">
-<meta property="og:updated_time" content="2018-01-27T07:23:46.235Z">
+<meta property="og:updated_time" content="2018-01-27T07:28:56.244Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gatling实时监控配置">
 <meta name="twitter:description" content="背景最近在研究Gatling，这是一款发布很久但在国内使用范围不是很广泛的压测工具。研究这款工具的理由很简单，很喜欢生成的html报告，本文会提供几张截图给大家一个直观感受，但这不是本文的重点，Gatling官网下载的版本不支持实时监控，只有在simulations结束后，打开html报告才能看到数据图表，这不符合我们边压测边看图表的习惯。 实时监控官网说明文档中有关于实时监控章节的介绍，有兴趣的">
@@ -352,7 +352,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-27T15:23:46+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-27T15:28:56+08:00">
                 2018-01-27
               </time>
             
@@ -417,7 +417,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,384
+                  1,388
                 </span>
               
 
@@ -467,15 +467,24 @@
 <ul>
 <li>docker-compose安装</li>
 </ul>
-<p>安装Docker-Compose之前，请先安装 python-pip。<br>1、首先检查linux有没有安装python-pip包，终端执行 pip -V<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@vm<span class="number">-50</span><span class="number">-151</span> network-scripts]# pip -V</span><br><span class="line">-bash: pip: command not found</span><br><span class="line">``` </span><br><span class="line">没有python-pip包就执行命令 yum -y install epel-release</span><br></pre></td></tr></table></figure></p>
-<p>[root@vm-50-151 network-scripts]# yum -y install epel-release<br><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">3</span>、执行成功之后，再次执行yum -y <span class="keyword">install</span> python-pip</span><br></pre></td></tr></table></figure></p>
-<p>[root@vm-50-151 network-scripts]# yum install python-pip<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">4、对安装好的pip进行升级 pip <span class="keyword">install</span> <span class="comment">--upgrade pip</span></span><br></pre></td></tr></table></figure></p>
-<p>[root@vm-50-151 network-scripts]# pip install –upgrade pip<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">至此，pip安装好了，执行pip -V 再次检查pip环境。</span><br></pre></td></tr></table></figure></p>
-<p>[root@host-10-200-143-10 local]# pip -V<br>pip 9.0.1 from /usr/lib/python2.7/site-packages (python 2.7)<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">*<span class="strong">*安装Docker-Compose*</span><span class="strong">*</span></span><br></pre></td></tr></table></figure></p>
-<p>[root@host-10-200-143-10 local]# pip install docker-compose<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">检查docker-compose 安装：docker-compose -<span class="built_in">version</span></span><br></pre></td></tr></table></figure></p>
-<p>[root@host-10-200-143-10 local]# docker-compose -version<br>docker-compose version 1.18.0, build 8dd22a9<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="bullet">* </span>influxdb镜像</span><br></pre></td></tr></table></figure></p>
-<p>docker pull influxdb;<br><figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="bullet">* </span>grafana镜像</span><br></pre></td></tr></table></figure></p>
-<p>docker pull grafana/grafana;<br><figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 配置文件</span><br><span class="line"></span><br><span class="line">在服务器/usr/local目录下创建monitor目录，并在monitor下创建两个目录influxdb和grafana</span><br></pre></td></tr></table></figure></p>
+<p>安装Docker-Compose之前，请先安装 python-pip。<br>1、首先检查linux有没有安装python-pip包，终端执行 pip -V</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@vm<span class="number">-50</span><span class="number">-151</span> network-scripts]# pip -V</span><br><span class="line">-bash: pip: command not found</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">没有python-pip包就执行命令 yum -y install epel-release</span><br></pre></td></tr></table></figure>
+<p>[root@vm-50-151 network-scripts]# yum -y install epel-release</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="number">3</span>、执行成功之后，再次执行yum -y <span class="keyword">install</span> python-pip</span><br></pre></td></tr></table></figure>
+<p>[root@vm-50-151 network-scripts]# yum install python-pip</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">4、对安装好的pip进行升级 pip <span class="keyword">install</span> <span class="comment">--upgrade pip</span></span><br></pre></td></tr></table></figure>
+<p>[root@vm-50-151 network-scripts]# pip install –upgrade pip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">至此，pip安装好了，执行pip -V 再次检查pip环境。</span><br></pre></td></tr></table></figure>
+<p>[root@host-10-200-143-10 local]# pip -V<br>pip 9.0.1 from /usr/lib/python2.7/site-packages (python 2.7)</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">*<span class="strong">*安装Docker-Compose*</span><span class="strong">*</span></span><br></pre></td></tr></table></figure>
+<p>[root@host-10-200-143-10 local]# pip install docker-compose</p>
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">检查docker-compose 安装：docker-compose -<span class="built_in">version</span></span><br></pre></td></tr></table></figure>
+<p>[root@host-10-200-143-10 local]# docker-compose -version<br>docker-compose version 1.18.0, build 8dd22a9</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="bullet">* </span>influxdb镜像</span><br></pre></td></tr></table></figure>
+<p>docker pull influxdb;</p>
+<figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="bullet">* </span>grafana镜像</span><br></pre></td></tr></table></figure>
+<p>docker pull grafana/grafana;</p>
+<figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 配置文件</span><br><span class="line"></span><br><span class="line">在服务器/usr/local目录下创建monitor目录，并在monitor下创建两个目录influxdb和grafana</span><br></pre></td></tr></table></figure>
 <p>[root@host-10-200-143-10 local]# ls monitor<br>grafana  influxdb<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">在influxdb目录下新建docker-compose.yml文件，文件内容如下：</span><br></pre></td></tr></table></figure></p>
 <p>[root@host-10-200-143-10 influxdb]# cat docker-compose.yml<br>version: “2”<br>services:<br>  influxdb:<br>    image: influxdb<br>    ports:</p>
 <pre><code>  - 8086:8086
