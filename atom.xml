@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://igeeker.io/"/>
-  <updated>2018-04-08T01:23:45.816Z</updated>
+  <updated>2018-04-08T08:48:50.000Z</updated>
   <id>https://igeeker.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>浅谈bug描述</title>
+    <link href="https://igeeker.io/2018/04/08/%E6%B5%85%E8%B0%88bug%E6%8F%8F%E8%BF%B0/"/>
+    <id>https://igeeker.io/2018/04/08/浅谈bug描述/</id>
+    <published>2018-04-08T08:49:31.075Z</published>
+    <updated>2018-04-08T08:48:50.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h1><p>清楚准确的描述BUG，这是测试人员的必备的基础。针对各种问题，我们如何使自己提交的BUG让开发人员看一遍就明白呢？我相信大部分人都会碰到以下这种情况: 我们提交上去的BUG在某些特定的环境下存在，这时候如果没有写清楚具体产生BUG的前提条件的话，BUG难以重现，这个时候开发就会说：</p><blockquote><p>为什么我测试的时候没有出现这个问题呀？</p><p>为什么在我的机器上没有出现这个问题呀？</p><p>这个BUG是什么意思？</p></blockquote><h1 id="BUG理解偏差的根源"><a href="#BUG理解偏差的根源" class="headerlink" title="BUG理解偏差的根源"></a>BUG理解偏差的根源</h1><p>1． 测试与开发理解需求有偏差</p><p>2． BUG的出现是有概率性的</p><p>3． BUG受环境影响</p><p>4． BUG在一定条件下存在</p><p>5． BUG受数据影响，数据量达到一定量时才存在。</p><p>6． 测试人员提交的BUG，描述不清楚，让开发人员不明白其意</p><h1 id="BUG描述规范"><a href="#BUG描述规范" class="headerlink" title="BUG描述规范"></a>BUG描述规范</h1><p>为了尽量避免以上问题的出现，我们测试就要尽量用最简洁的语言最清晰的描述出BUG的出处、操作步骤、现象等。下面讲一讲BUG的描述规则：</p><p>1．摘要主要用于指明Bug发生的地点、在什么条件下发生什么现象。</p><p>2．<strong>描述字段：</strong></p><blockquote><p>1）描述Bug发生的地点、所用账号类型、操作步骤、期望值、实际值， 如果Bug与浏览器相关，需尽量描述更多的环境参数，如操作系统等。</p><p>2) 一个Bug不会包含多个问题，会尽量单一化，便于跟踪处理及统计</p><p>3) 对于很难描述清楚的Bug需截屏作为附件上传，并在描述中写明参照附件。</p><p>4）尽量减少重现的步骤以达到用最少的步骤来重现问题；</p><p>5）不要使用完全的大写形式，那样会让人感觉象控诉。不要使用感叹号或其他表现个人感情色彩的词语或符号。</p><p>6）不要使用含糊的词语（例如，好像，似乎）来描述发现的现象。</p><p>7）在BUG提交前，测试人员应该反复阅读它，集中剔除那些没有关系的步骤或词语。隐含的或模糊的说明和那些由于对没有任何关系的细节或者那些在重现错误过程中不需要的步骤。</p><p>8）测试人员在精简空话的同时或其之后随即应该再仔细检查报告是否有会产生误解的地方。测试人员应该尽量避免使用模糊的，会产生歧义的和主观的词语。目标是使用能够表述事实，清楚的，不会产生争执的词语。</p><p>9）如有必要可以把产生结果的SQL语句放上去，不过需要开发人员在短时间内定位问题，否则测试人员不能保证数据的完整性。</p><p>10）如果是概率性的BUG，尽量重现BUG，找到BUG产生的条件，如果找不出BUG产生的原因必须写明BUG发生的概率大约是多少。</p><p>11）BUG如果在特定条件下产生的，必须写明BUG产生的条件和操作步聚。</p></blockquote>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;引子&quot;&gt;&lt;a href=&quot;#引子&quot; class=&quot;headerlink&quot; title=&quot;引子&quot;&gt;&lt;/a&gt;引子&lt;/h1&gt;&lt;p&gt;清楚准确的描述BUG，这是测试人员的必备的基础。针对各种问题，我们如何使自己提交的BUG让开发人员看一遍就明白呢？我相信大部分人都会碰到以下
+      
+    
+    </summary>
+    
+      <category term="测试人生" scheme="https://igeeker.io/categories/%E6%B5%8B%E8%AF%95%E4%BA%BA%E7%94%9F/"/>
+    
+    
+      <category term="测试感悟" scheme="https://igeeker.io/tags/%E6%B5%8B%E8%AF%95%E6%84%9F%E6%82%9F/"/>
+    
+  </entry>
   
   <entry>
     <title>善于发现问题的职业素养</title>
