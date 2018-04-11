@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://igeeker.io/"/>
-  <updated>2018-04-11T06:02:05.670Z</updated>
+  <updated>2018-04-11T06:22:53.000Z</updated>
   <id>https://igeeker.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>JVM体系结构图</title>
+    <link href="https://igeeker.io/2018/04/11/JVM%E4%BD%93%E7%B3%BB%E7%BB%93%E6%9E%84%E5%9B%BE/"/>
+    <id>https://igeeker.io/2018/04/11/JVM体系结构图/</id>
+    <published>2018-04-11T06:23:23.165Z</published>
+    <updated>2018-04-11T06:22:53.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="JVM体系结构图"><a href="#JVM体系结构图" class="headerlink" title="JVM体系结构图"></a>JVM体系结构图</h1><p><img src="https://i.imgur.com/ieAu3Ml.png" alt="JVM体系结构图"></p><blockquote><p>新生代：可通过参数-Xmn进行设置</p><p>堆内存：可通过参数-Xms、-Xmx进行设置</p><p>持久代：可通过参数-XX:PermSize、-XX:MaxPermSize进行设置</p></blockquote><p>JVM参数设置网上资料很多，大家自行谷歌，关于JVM堆内存回收流程相关的，大家可以移步<a href="http://igeeker.io/2018/04/09/JVM%E5%A0%86%E5%86%85%E5%AD%98%E5%9B%9E%E6%94%B6%E6%B5%81%E7%A8%8B%E5%9B%BE/">JVM堆内存回收流程图</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;JVM体系结构图&quot;&gt;&lt;a href=&quot;#JVM体系结构图&quot; class=&quot;headerlink&quot; title=&quot;JVM体系结构图&quot;&gt;&lt;/a&gt;JVM体系结构图&lt;/h1&gt;&lt;p&gt;&lt;img src=&quot;https://i.imgur.com/ieAu3Ml.png&quot; alt
+      
+    
+    </summary>
+    
+      <category term="性能测试" scheme="https://igeeker.io/categories/%E6%80%A7%E8%83%BD%E6%B5%8B%E8%AF%95/"/>
+    
+    
+      <category term="JVM" scheme="https://igeeker.io/tags/JVM/"/>
+    
+  </entry>
   
   <entry>
     <title>Jenkins自动生成ios安装包</title>
