@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-minimal.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.ico?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Jenkins、ios," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="测试极客" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="前言昨天一位前同事问我，之前自动生成ios安装包是怎么弄的？网上找不到比较好的教程。这个搭建过程我是整理成文档的，但没有记录到博客中，趁今天稍微空点，把文档记录到博客上，方便需要的朋友借鉴参考。 一听说自动打包，可能很多人就想到是Jenkins，这边的方案确实也是使用Jenkins，那么，先简单介绍下Jenkins相关的关键字（持续集成、CI） 为什么我们需要持续集成持续集成是一种软件开发实践：许">
+<meta name="keywords" content="Jenkins、ios">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins自动生成ios安装包">
+<meta property="og:url" content="https://igeeker.io/2018/04/11/Jenkins自动生成ios版本ipa安装包/index.html">
+<meta property="og:site_name" content="测试极客">
+<meta property="og:description" content="前言昨天一位前同事问我，之前自动生成ios安装包是怎么弄的？网上找不到比较好的教程。这个搭建过程我是整理成文档的，但没有记录到博客中，趁今天稍微空点，把文档记录到博客上，方便需要的朋友借鉴参考。 一听说自动打包，可能很多人就想到是Jenkins，这边的方案确实也是使用Jenkins，那么，先简单介绍下Jenkins相关的关键字（持续集成、CI） 为什么我们需要持续集成持续集成是一种软件开发实践：许">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://i.imgur.com/q5UqRPq.png">
+<meta property="og:image" content="https://i.imgur.com/dGaZs00.png">
+<meta property="og:image" content="https://i.imgur.com/1lcLoiA.png">
+<meta property="og:image" content="https://i.imgur.com/6rHHKBT.png">
+<meta property="og:image" content="https://i.imgur.com/CHHPHd3.png">
+<meta property="og:image" content="https://i.imgur.com/LLlbWdH.png">
+<meta property="og:image" content="https://i.imgur.com/5c2fVwj.png">
+<meta property="og:image" content="https://i.imgur.com/j0qLi1Y.png">
+<meta property="og:image" content="https://i.imgur.com/5PpqEEG.png">
+<meta property="og:image" content="https://i.imgur.com/Oig2Qoi.png">
+<meta property="og:image" content="https://i.imgur.com/8rPFabT.png">
+<meta property="og:image" content="https://i.imgur.com/65mVets.png">
+<meta property="og:image" content="https://i.imgur.com/KMFas5S.png">
+<meta property="og:image" content="https://i.imgur.com/4NiYrqQ.png">
+<meta property="og:image" content="https://i.imgur.com/GyoJOyF.png">
+<meta property="og:image" content="https://i.imgur.com/YX9XkML.png">
+<meta property="og:image" content="https://i.imgur.com/sIjBz9Z.png">
+<meta property="og:image" content="https://i.imgur.com/utCWBn8.png">
+<meta property="og:image" content="https://i.imgur.com/1L3xrvh.png">
+<meta property="og:image" content="https://i.imgur.com/lvD7GZA.png">
+<meta property="og:image" content="https://i.imgur.com/CDpcyGD.png">
+<meta property="og:image" content="https://i.imgur.com/JrunSu6.png">
+<meta property="og:image" content="https://i.imgur.com/zBhBqqv.png">
+<meta property="og:image" content="https://i.imgur.com/pnEZOx2.png">
+<meta property="og:image" content="https://i.imgur.com/KmI1umX.png">
+<meta property="og:image" content="https://i.imgur.com/w8xe0EM.png">
+<meta property="og:image" content="https://i.imgur.com/65bZzZR.png">
+<meta property="og:image" content="https://i.imgur.com/B3d3G85.png">
+<meta property="og:image" content="https://i.imgur.com/GoDNdBT.png">
+<meta property="og:image" content="https://i.imgur.com/ocok3uD.png">
+<meta property="og:image" content="https://i.imgur.com/8JGXbfV.png">
+<meta property="og:image" content="https://i.imgur.com/Erley0s.png">
+<meta property="og:image" content="https://i.imgur.com/f9LmaVT.png">
+<meta property="og:image" content="https://i.imgur.com/yl5lVWr.png">
+<meta property="og:image" content="https://i.imgur.com/sYLt1xy.png">
+<meta property="og:image" content="https://i.imgur.com/yBAeXUc.png">
+<meta property="og:image" content="https://i.imgur.com/QT9N6gY.png">
+<meta property="og:image" content="https://i.imgur.com/fKpuQuC.png">
+<meta property="og:image" content="https://i.imgur.com/hb7hs8T.png">
+<meta property="og:image" content="https://i.imgur.com/MErfZCM.png">
+<meta property="og:image" content="https://i.imgur.com/sS6ZHPO.png">
+<meta property="og:image" content="https://i.imgur.com/py6gMqA.png">
+<meta property="og:image" content="https://i.imgur.com/xbBgyN7.png">
+<meta property="og:image" content="https://i.imgur.com/9OszE2X.png">
+<meta property="og:image" content="https://i.imgur.com/WBjw9QB.png">
+<meta property="og:image" content="https://i.imgur.com/Z7xcFCj.png">
+<meta property="og:image" content="https://i.imgur.com/7JbDfKU.png">
+<meta property="og:image" content="https://i.imgur.com/BQ3nuS2.png">
+<meta property="og:image" content="https://i.imgur.com/f2uSBxG.png">
+<meta property="og:image" content="https://i.imgur.com/CA9vE1W.png">
+<meta property="og:updated_time" content="2018-04-11T05:53:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Jenkins自动生成ios安装包">
+<meta name="twitter:description" content="前言昨天一位前同事问我，之前自动生成ios安装包是怎么弄的？网上找不到比较好的教程。这个搭建过程我是整理成文档的，但没有记录到博客中，趁今天稍微空点，把文档记录到博客上，方便需要的朋友借鉴参考。 一听说自动打包，可能很多人就想到是Jenkins，这边的方案确实也是使用Jenkins，那么，先简单介绍下Jenkins相关的关键字（持续集成、CI） 为什么我们需要持续集成持续集成是一种软件开发实践：许">
+<meta name="twitter:image" content="https://i.imgur.com/q5UqRPq.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://igeeker.io/2018/04/11/Jenkins自动生成ios版本ipa安装包/"/>
+
+
+
+
+
+  <title>Jenkins自动生成ios安装包 | 测试极客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <a href="https://github.com/kuangay" class="github-corner" aria-label="View source on Github"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">测试极客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">不忘初心 方得始终</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://igeeker.io/2018/04/11/Jenkins自动生成ios版本ipa安装包/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Cappuccino">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/geeker2.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="测试极客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Jenkins自动生成ios安装包</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-11T13:54:49+08:00">
+                2018-04-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/持续集成/" itemprop="url" rel="index">
+                    <span itemprop="name">持续集成</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/04/11/Jenkins自动生成ios版本ipa安装包/" class="leancloud_visitors" data-flag-title="Jenkins自动生成ios安装包">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  5,582
+                </span>
+              
+
+              
+                <span class="post-meta-divider">|</span>
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  21
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>昨天一位前同事问我，之前自动生成ios安装包是怎么弄的？网上找不到比较好的教程。这个搭建过程我是整理成文档的，但没有记录到博客中，趁今天稍微空点，把文档记录到博客上，方便需要的朋友借鉴参考。</p>
+<p>一听说自动打包，可能很多人就想到是Jenkins，这边的方案确实也是使用Jenkins，那么，先简单介绍下Jenkins相关的关键字（持续集成、CI）</p>
+<h1 id="为什么我们需要持续集成"><a href="#为什么我们需要持续集成" class="headerlink" title="为什么我们需要持续集成"></a>为什么我们需要持续集成</h1><p>持续集成是一种软件开发实践：许多团队频繁地集成他们的工作，每位成员通常进行日常集成，进而每天会有多种集成。每个集成会由自动的构建（包括测试）来尽可能快地检测错误。许多团队发现这种方法可以显著的减少集成问题并且可以使团队开发更加快捷。<br>CI是一种开发实践。实践应该包含3个基本模块，一个可以自动构建的过程，自动编译代码，可以自动分发，部署和测试。一个代码仓库，SVN或者Git。最后一个是一个持续集成的服务器。通过持续集成，可以让我们通过自动化等手段高频率地去获取产品反馈并响应反馈的过程。<br>那么持续集成能给我们带来些什么好处呢？这里推荐一篇文章，文章中把Continuous integration (CI) and test-driven development (TDD)分成了12个步骤。<br><img src="https://i.imgur.com/q5UqRPq.png" alt="持续集成"></p>
+<p><strong>CI带来的好处有：</strong></p>
+<ul>
+<li>缩减开发周期，快速迭代版本</li>
+</ul>
+<p>每个版本开始都会估算好开发周期，但是总会因为各种事情而延期。这其中包括了一些客观因素。由于产品线增多，迭代速度越来越快，给测试带来的压力也越来越大。如果测试都在开发完全开发完成之后再来测试，那就会影响很长一段时间。这时候由于集成晚就会严重拖慢项目节奏。如果能尽早的持续集成，尽快进入上图的12步骤的迭代环中，就可以尽早的暴露出问题，提早解决，尽量在规定时间内完成任务。</p>
+<ul>
+<li>自动化流水线操作带来的高效</li>
+</ul>
+<p>其实打包对于开发人员来说是一件很耗时，而且没有很大技术含量的工作。如果开发人员一多，相互改的代码冲突的几率就越大，加上没有产线管理机制，代码仓库的代码质量很难保证。团队里面会花一些时间来解决冲突，解决完了冲突还需要自己手动打包。这个时候如果证书又不对，又要耽误好长时间。这些时间其实可以用持续集成来节约起来的。一天两天看着不多，但是按照年的单位来计算，可以节约很多时间！</p>
+<ul>
+<li>随时可部署</li>
+</ul>
+<p>有了持续集成以后，我们可以以天为单位来打包，这种高频率的集成带来的最大的优点就是可以随时部署上线。这样就不会导致快要上线，到处是漏洞，到处是bug，手忙脚乱弄完以后还不能部署，严重影响上线时间。</p>
+<ul>
+<li>极大程度避免低级错误</li>
+</ul>
+<p>我们可以犯错误，但是犯低级错误就很不应该。这里指的低级错误包括以下几点：编译错误，安装问题，接口问题，性能问题。</p>
+<p>以天为单位的持续集成，可以很快发现编译问题，自动打包直接无法通过。打完包以后，测试扫码无法安装，这种问题也会立即被暴露出来。接口问题和性能问题就有自动化测试脚本来发现。这些低级问题由持续集成来暴露展现出来，提醒我们避免低级错误。</p>
+<h1 id="持续化集成工具——Jenkins"><a href="#持续化集成工具——Jenkins" class="headerlink" title="持续化集成工具——Jenkins"></a>持续化集成工具——Jenkins</h1><p>Jenkins 是一个开源项目，提供了一种易于使用的持续集成系统，使开发者从繁杂的集成中解脱出来，专注于更为重要的业务逻辑实现上。同时 Jenkins 能实施监控集成中存在的错误，提供详细的日志文件和提醒功能，还能用图表的形式形象地展示项目构建的趋势和稳定性。</p>
+<p>根据官方定义，Jenkins有以下的用途：</p>
+<ul>
+<li><p>构建项目</p>
+</li>
+<li><p>跑测试用例检测bug</p>
+</li>
+<li><p>静态代码检测</p>
+</li>
+<li><p>部署</p>
+</li>
+</ul>
+<p>关于这4点，实际使用中还是比较方便的：</p>
+<p>1.构建项目自动化打包可以省去开发人员好多时间，重要的是，Jenkins为我们维护了一套高质量可用的代码，而且保证了一个纯净的环境。我们经常会出现由于本地配置出错而导致打包失败的情况。现在Jenkins就是一个公平的评判者，它无法正确的编译出ipa，那就是有编译错误或者配置问题。开发人员没必要去争论本地是可以运行的，拉取了谁谁谁的代码以后就不能运行了。共同维护Jenkins的正常编译，因为Jenkins的编译环境比我们本地简单的多，它是最纯净无污染的编译环境。开发者就只用专注于编码。这是给开发者带来的便利。</p>
+<p>2.这个可以用来自动化测试。在本地生成大批的测试用例。每天利用服务器不断的跑这些用例。每天每个接口都跑一遍。看上去没必要，但是实际上今天运行正常的系统，很可能由于今天的代码改动，明天就出现问题了。有了Jenkins可以以天为单位的进行回归测试，代码只要有改动，Jenkins就把所有的回归测试的用例全部都跑一遍。在项目工期紧张的情况下，很多情况测试都不是很重视回归测试，毕竟很可能测一遍之后是徒劳的“无用功”。然而由于回归测试不及时，就导致到最后发版的时候系统不可用了，这时候回头查找原因是比较耗时的，查看提交记录，看到上百条提交记录，排查起来也是头疼的事情。以天为单位的回归测试能立即发现问题。测试人员每天可以专注按单元测试，一周手动一次回归测试。这是给测试者带来的便利。</p>
+<p>3.这个是静态代码分析，可以检测出很多代码的问题，比如潜在的内存泄露的问题。由于Jenkins所在环境的纯净，还是可以发现一些我们本地复杂环境无法发现的问题，进一步的提高代码质量。这是给质检带来的便利。</p>
+<p>4.随时部署。Jenkins在打包完成之后可以设定之后的操作，这个时候往往就是提交app到跑测试用例的系统，或者部署到内测平台生成二维码。部署中不能安装等一些低级问题随之立即暴露。测试人员也只需要扫一下二维码即可安装，很方便。这也算是给测试带来的便利。</p>
+<h1 id="Jenkins安装"><a href="#Jenkins安装" class="headerlink" title="Jenkins安装"></a>Jenkins安装</h1><h3 id="MAC系统安装Jenkins"><a href="#MAC系统安装Jenkins" class="headerlink" title="MAC系统安装Jenkins"></a>MAC系统安装Jenkins</h3><p>从官网<a href="https://jenkins.io/" target="_blank" rel="noopener">https://jenkins.io/</a> 上下载最新的pkg安装包，我们这里选择LTS Release(稳定版本)下载，如下图所示<br><img src="https://i.imgur.com/dGaZs00.png" alt="MAC系统安装Jenkins"><br>下载完成后进行安装，安装方式比较简单，这里就不一一说明<br><img src="https://i.imgur.com/1lcLoiA.png" alt="MAC系统安装Jenkins"><br><img src="https://i.imgur.com/6rHHKBT.png" alt="MAC系统安装Jenkins"><br><img src="https://i.imgur.com/CHHPHd3.png" alt="MAC系统安装Jenkins"><br><img src="https://i.imgur.com/LLlbWdH.png" alt="MAC系统安装Jenkins"><br><img src="https://i.imgur.com/5c2fVwj.png" alt="MAC系统安装Jenkins"><br><img src="https://i.imgur.com/j0qLi1Y.png" alt="MAC系统安装Jenkins"></p>
+<p>也可以下载jenkins.war, 然后运行Java -jar jenkins.war，进行安装。</p>
+<p>安装完成后检查下jenkins是否安装成功：</p>
+<p>正常安装完成后，Safari可能会自动打开，如果没有自动打开，打开浏览器，输入<code>http://localhost:8080</code>，jenkins默认的端口是8080，如果8080端口被占用要更换端口，请自行网上查找，这里就不一一说明了。</p>
+<p>打开后的页面如果是如下图所示，即说明安装成功。<br><img src="https://i.imgur.com/5PpqEEG.png" alt="MAC系统安装Jenkins"></p>
+<p>如果没有出现预期的页面，出现了如下页面<br><img src="https://i.imgur.com/Oig2Qoi.png" alt="MAC系统安装Jenkins"></p>
+<p>排查方法可以如下参考：</p>
+<p>1、    先确认下jenkins进程是否存在，在终端输入jps或ps –ef | grep jenkins均可确认<br><img src="https://i.imgur.com/8rPFabT.png" alt="MAC系统安装"></p>
+<blockquote>
+<p>这里截图说明jenkins是正常的</p>
+</blockquote>
+<p>2、    检查下java环境是否正常，具体检查方法自行查找</p>
+<p>3、    查看jenkins日志</p>
+<p>这里要注意的是，jenkins在MAC OS跟centos或red linux不同环境下的配置文件和安装目录内的文件是有区别的。<br>MAC OS下，jenkins默认配置文件是/Library/LaunchDaemons/org.jenkins-ci.plist，内容如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+  &lt;dict&gt;
+&lt;!--  jenkins日志输  --&gt;
+&lt;key&gt;StandardOutPath&lt;/key&gt;
+&lt;string&gt;/var/log/jenkins/jenkins.log&lt;/string&gt;
+&lt;key&gt;StandardErrorPath&lt;/key&gt;
+&lt;string&gt;/var/log/jenkins/jenkins.log&lt;/string&gt;
+&lt;key&gt;EnvironmentVariables&lt;/key&gt;
+&lt;dict&gt;
+&lt;!--  Jenkins home目录  --&gt;
+  &lt;key&gt;JENKINS_HOME&lt;/key&gt;
+  &lt;string&gt;/Users/Shared/Jenkins/Home&lt;/string&gt;
+&lt;/dict&gt;
+&lt;key&gt;GroupName&lt;/key&gt;
+&lt;string&gt;daemon&lt;/string&gt;
+&lt;key&gt;KeepAlive&lt;/key&gt;
+&lt;true/&gt;
+&lt;key&gt;Label&lt;/key&gt;
+&lt;string&gt;org.jenkins-ci&lt;/string&gt;
+&lt;key&gt;ProgramArguments&lt;/key&gt;
+&lt;array&gt;
+  &lt;string&gt;/bin/bash&lt;/string&gt;
+  &lt;string&gt;/Library/Application Support/Jenkins/jenkins-runner.sh&lt;/string&gt;
+&lt;/array&gt;
+&lt;key&gt;RunAtLoad&lt;/key&gt;
+&lt;true/&gt;
+&lt;!--  Jenkins 新增的默认用户  --&gt;
+&lt;key&gt;UserName&lt;/key&gt;
+&lt;string&gt;jenkins/string&gt;
+&lt;key&gt;SessionCreate&lt;/key&gt;
+&lt;true/&gt;
+  &lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre><p>这个时候如果你重启电脑会发现Jenkins给你新增了一个用户，名字就叫Jenkins，不过这个时候你不知道密码。你可能会去试密码，肯定是不对的，因为初始密码很复杂。这个时候正确做法是打开<code>http://localhost:8080</code> 会出现下图的重设初始密码的界面。<br><img src="https://i.imgur.com/65mVets.png" alt="MAC系统安装"><br>按照提示，找到/Users/Shared/Jenkins/Home/ 这个目录下，这个目录虽然是共享目录，但是有权限的，非Jenkins用户/secrets/目录是没有读写权限的。</p>
+<p><img src="https://i.imgur.com/KMFas5S.png" alt="MAC系统安装"><br><img src="https://i.imgur.com/4NiYrqQ.png" alt="MAC系统安装"></p>
+<p>打开initialAdminPassword文件，复制出密码，就可以填到网页上去重置密码了。</p>
+<p>另外一种方法就是直接使用root用户在终端输入命令查看sudo cat /Users/Shared/Jenkins/Home/secrets/initialAdminPassword，复制出密码，就可以填到网页上去重置密码了。如下图</p>
+<p><img src="https://i.imgur.com/GyoJOyF.png" alt="MAC系统安装"></p>
+<p>选择第一个（建议安装插件）</p>
+<p><img src="https://i.imgur.com/YX9XkML.png" alt="MAC系统安装"><br><img src="https://i.imgur.com/sIjBz9Z.png" alt="MAC系统安装"><br><img src="https://i.imgur.com/utCWBn8.png" alt="MAC系统安装"><br><img src="https://i.imgur.com/1L3xrvh.png" alt="MAC系统安装"><br><img src="https://i.imgur.com/lvD7GZA.png" alt="MAC系统安装"><br><img src="https://i.imgur.com/CDpcyGD.png" alt="MAC系统安装"></p>
+<p>一路安装过来，输入用户名，密码，邮件这些，就算安装完成了。</p>
+<h3 id="安装所需插件"><a href="#安装所需插件" class="headerlink" title="安装所需插件"></a>安装所需插件</h3><p>还是继续登录<code>http://localhost:8080</code> ，选择“系统管理”——“管理插件”，我们要先安装一些辅助插件。</p>
+<ul>
+<li>安装Gitlab插件</li>
+</ul>
+<p>因为我们用的是GitLab来管理源代码，Jenkins本身并没有自带GitLab插件，所以我们需要依次选择 系统管理-&gt;管理插件，在“可选插件”中选中“GitLab Plugin”和“Gitlab Hook Plugin”这两项，然后安装。</p>
+<ul>
+<li>安装Xcode插件</li>
+</ul>
+<p>同安装GitLab插件的步骤一样，我们依次选择系统管理-&gt;管理插件，在“可选插件”中选中“Xcode integration”安装。</p>
+<ul>
+<li>安装Keychains and Provisioning Profiles Management插件</li>
+</ul>
+<p>IOS项目打包需要签名文件和证书</p>
+<p>安装完了这个，我们就可以配置一个构建项目了。<br><img src="https://i.imgur.com/JrunSu6.png" alt="MAC系统安装"><br><img src="https://i.imgur.com/zBhBqqv.png" alt="MAC系统安装"><br><img src="https://i.imgur.com/pnEZOx2.png" alt="MAC系统安装"></p>
+<h1 id="配置构建Job"><a href="#配置构建Job" class="headerlink" title="配置构建Job"></a>配置构建Job</h1><p>点击新建好的项目，进来配置一下General参数。</p>
+<h3 id="设置General参数"><a href="#设置General参数" class="headerlink" title="设置General参数"></a>设置General参数</h3><p><img src="https://i.imgur.com/KmI1umX.png" alt="配置构建Job"><br>这里可以设置包的保留天数还有最大个数。</p>
+<h3 id="设置源码管理"><a href="#设置源码管理" class="headerlink" title="设置源码管理"></a>设置源码管理</h3><p>由于现在我用到的是GitLab，先配置SSH Key，在Jenkins的证书管理中添加SSH。在Jenkins管理页面，选择“Credentials”，然后选择“Global credentials (unrestricted)”，点击“Add Credentials”，如下图所示，我们填写自己的SSH信息，然后点击“Save”，这样就把SSH添加到Jenkins的全局域中去了。<br><img src="https://i.imgur.com/w8xe0EM.png" alt="配置构建Job"><br>我这边已经配置好了，可以点击左边的Credentials（证书）<br><img src="https://i.imgur.com/65bZzZR.png" alt="配置构建Job"><br><img src="https://i.imgur.com/B3d3G85.png" alt="配置构建Job"><br>鼠标移至jenkins出现倒三角，点击选择update</p>
+<p><img src="https://i.imgur.com/GoDNdBT.png" alt="配置构建Job"><br><img src="https://i.imgur.com/ocok3uD.png" alt="配置构建Job"></p>
+<p>这里配置的是Gitlab账户对应的私钥，公钥需要在Gitlab里面进行配置。</p>
+<p><img src="https://i.imgur.com/8JGXbfV.png" alt="配置构建Job"><br><img src="https://i.imgur.com/Erley0s.png" alt="配置构建Job"></p>
+<p>检查ssh是否配置成功：<br><img src="https://i.imgur.com/f9LmaVT.png" alt="配置构建Job"><br>说明ssh配置成功</p>
+<p>如果有下图的提示，就说明Jenkins还没有连通GitLab或者SVN，那就请再检查SSH Key是否配置正确。<br><img src="https://i.imgur.com/yl5lVWr.png" alt="配置构建Job"></p>
+<h3 id="设置构建触发器"><a href="#设置构建触发器" class="headerlink" title="设置构建触发器"></a>设置构建触发器</h3><p>这里是设置自动化测试的地方。这里涉及的内容很多，这里暂时先不设置。有自动化测试需求的可以好好研究研究这里的设置。</p>
+<p>简单说明触发器几个配置项</p>
+<p><strong>Poll SCM (poll source code management) 轮询源码管理</strong></p>
+<p>需要设置源码的路径才能起到轮询的效果。一般设置为类似结果： 0/5 每5分钟轮询一次</p>
+<p><strong>Build periodically (定时build)</strong></p>
+<p>一般设置为类似： 00 20 * 每天 20点执行定时build 。当然两者的设置都是一样可以通用的。格式是这样的<br>分钟(0-59) 小时(0-23) 日期(1-31) 月(1-12) 周几(0-7,0和7都是周日)</p>
+<h3 id="构建环境设置"><a href="#构建环境设置" class="headerlink" title="构建环境设置"></a>构建环境设置</h3><p>iOS打包需要签名文件和证书，这部分的配置是很重要的，也遇到了不少坑，这里重点说明下。<br>这里是需要用到前面安装的<strong>Keychains and Provisioning Profiles Management</strong>插件，在系统管理页面，选择“Keychains and Provisioning Profiles Management”。</p>
+<p><img src="https://i.imgur.com/sYLt1xy.png" alt="配置构建Job"></p>
+<p>进入Keychains and Provisioning Profiles Management页面，点击“浏览”按钮，分别上传自己的keychain和证书。上传成功后，我们再为keychain指明签名文件的名称。点击“Add Code Signing Identity”，最后添加成功后如下图所示：</p>
+<p><img src="https://i.imgur.com/yBAeXUc.png" alt="配置构建Job"></p>
+<p>Keychain和证书可以找ios开发提供。</p>
+<blockquote>
+<p>注意：我第一次导入证书和Provisioning Profiles文件，就遇到了一点小“坑”，我当时以为是需要证书，但是这里需要的Keychain，并不是cer证书文件。这个Keychain其实在/Users/管理员用户名/Library/keychains/login.keychain,当把这个Keychain设置好了之后，Jenkins会把这个Keychain拷贝到/Users/Shared/Jenkins/Library/keychains这里，(Library是隐藏文件)。Provisioning Profiles文件也直接拷贝到/Users/Shared/Jenkins/Library/MobileDevice文件目录下。</p>
+</blockquote>
+<p>这样证书和签名文件就在Jenkins中配置好了，接下来我们只需要在item设置中指定相关文件即可。</p>
+<p>回到我们新建的item，找到构建环境，按下图选好自己的相关证书和签名文件。</p>
+<p><img src="https://i.imgur.com/QT9N6gY.png" alt="配置构建Job"></p>
+<h3 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h3><p><img src="https://i.imgur.com/fKpuQuC.png" alt="配置构建Job"></p>
+<p>我这边编写的构建脚本如下图所示</p>
+<p><img src="https://i.imgur.com/hb7hs8T.png" alt="配置构建Job"></p>
+<p>这里遇到了各种各样的问题，到时候在文档结尾会附上</p>
+<p>至此，我们的Jenkins设置就全部完成了。点击构建，就会开始构建项目了。</p>
+<p>构建一次，各个颜色代表的意义如下：</p>
+<p><img src="https://i.imgur.com/MErfZCM.png" alt="配置构建Job"></p>
+<p>天气的晴雨表代表了项目的质量，这也是Jenkins的一个特色。</p>
+<p><img src="https://i.imgur.com/sS6ZHPO.png" alt="配置构建Job"></p>
+<p>如果构建失败了，可以去查看Console Output可以查看log日志。</p>
+<p><img src="https://i.imgur.com/py6gMqA.png" alt="配置构建Job"></p>
+<h1 id="iOS自动化打包命令"><a href="#iOS自动化打包命令" class="headerlink" title="iOS自动化打包命令"></a>iOS自动化打包命令</h1><h3 id="安装CocoaPods"><a href="#安装CocoaPods" class="headerlink" title="安装CocoaPods"></a>安装CocoaPods</h3><p>当你开发iOS应用时，会经常使用到很多第三方开源类库，比如JSONKit，AFNetWorking等等。可能某个类库又用到其他类库，所以要使用它，必须得另外下载其他类库，而其他类库又用到其他类库，“子子孙孙无穷尽也”，这也许是比较特殊的情况。总之小编的意思就是，手动一个个去下载所需类库十分麻烦。另外一种常见情况是，你项目中用到的类库有更新，你必须得重新下载新版本，重新加入到项目中，十分麻烦。如果能有什么工具能解决这些恼人的问题，那将“善莫大焉”。所以，你需要 CocoaPods。</p>
+<p>CocoaPods应该是iOS最常用最有名的类库管理工具了，上述两个烦人的问题，通过cocoaPods，只需要一行命令就可以完全解决，当然前提是你必须正确设置它。重要的是，绝大部分有名的开源类库，都支持CocoaPods。所以，作为iOS程序员的我们，掌握CocoaPods的使用是必不可少的基本技能了。</p>
+<p>网上MAC OS安装cocopods的帖子一大把，这里就不赘述了，需要注意的就是要安装cocopods之前先要安装Ruby。这里就简单介绍下cocopods常用的几个命令：</p>
+<blockquote>
+<p>初始化CocoaPods的环境</p>
+</blockquote>
+<pre><code>$ pod setup
+</code></pre><p>提示：可能会花费较多的时间，你需要更多的耐心，跟你的网络状况有很大关系</p>
+<blockquote>
+<p>检查CocoaPods安装版本</p>
+</blockquote>
+<pre><code>$ pod –version
+</code></pre><p>在这儿如果你的电脑能够显示cocoapods版本号，那么恭喜你，你的CocoaPods安装成功了！！！</p>
+<blockquote>
+<p>安装</p>
+</blockquote>
+<pre><code>$ pod install
+</code></pre><blockquote>
+<p>升级</p>
+</blockquote>
+<pre><code>$ pod update
+</code></pre><p>如果update 或 install 卡住了,可以用下面两个命令替代(前提是你已经把第三方库下载下来了)</p>
+<pre><code>$ pod install --verbose --no-repo-update
+$ pod update --verbose --no-repo-update
+</code></pre><h3 id="ios自动构建命令–xcodebuild命令"><a href="#ios自动构建命令–xcodebuild命令" class="headerlink" title="ios自动构建命令–xcodebuild命令"></a>ios自动构建命令–xcodebuild命令</h3><p>xcodebuild 是苹果发布自动构建的工具。它在一个Xcode项目下能构建一个或者多个targets ，也能在一个workspace或者Xcode项目上构建scheme，总的来说，用它没错就是了。</p>
+<p>这里简单介绍下常用的xcodebuild命令</p>
+<blockquote>
+<p>查看可用的SDK</p>
+</blockquote>
+<pre><code>$ xcodebuild -showsdks
+</code></pre><p><img src="https://i.imgur.com/xbBgyN7.png" alt="配置构建Job"></p>
+<blockquote>
+<p>查看项目全部的targets，schemes和configurations</p>
+</blockquote>
+<pre><code>$ xcodebuild -list
+</code></pre><p><img src="https://i.imgur.com/9OszE2X.png" alt="配置构建Job"></p>
+<blockquote>
+<p>使用xcodebuild clean [-optionName]…清除编译过程生成文件</p>
+<p>xcodebuild clean -workspace XXX.xcworkspace -scheme XXX -configuration Debug -sdk iphoneos9.3</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-workspace NAME</td>
+<td style="text-align:center">指定工作空间文件XXX.xcworkspace</td>
+</tr>
+<tr>
+<td>-scheme NAME</td>
+<td style="text-align:center">指定构建工程名称</td>
+</tr>
+<tr>
+<td>-configuration [Debug/Release]</td>
+<td style="text-align:center">选择Debug或者Release构建</td>
+</tr>
+<tr>
+<td>-sdk NAME</td>
+<td style="text-align:center">指定编译时使用的SDK</td>
+</tr>
+</tbody>
+</table>
+<p>如：</p>
+<pre><code>$ xcodebuild clean -workspace XXX.xcworkspace -scheme XXX -configuration Debug -sdk iphoneos10.2
+</code></pre><blockquote>
+<p>使用xcodebuild build [-optionName]…编译命令介绍(该命令结构适用于工作空间[workspace]编译)</p>
+<p>xcodebuild build -workspace XXX.xcworkspace -scheme XXX -configuration Debug -sdk iphoneos9.3</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-workspace NAME</td>
+<td style="text-align:center">指定工作空间文件XXX.xcworkspace</td>
+</tr>
+<tr>
+<td>-scheme NAME</td>
+<td style="text-align:center">指定构建工程名称</td>
+</tr>
+<tr>
+<td>-configuration [Debug/Release]</td>
+<td style="text-align:center">选择Debug或者Release构建</td>
+</tr>
+<tr>
+<td>-sdk NAME</td>
+<td style="text-align:center">指定编译时使用的SDK</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>使用xcodebuild archive [-optionName]… 编译并生成.xcarchive包</p>
+<p>xcodebuild archive -archivePath /Users/UserName/Desktop/App/archive/XXX -workspace XXX.xcworkspace -scheme XXX -configuration Debug -sdk iphoneos9.3</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-archivePath PATH</td>
+<td style="text-align:center">保存生成.xcarchive包路径</td>
+</tr>
+<tr>
+<td>-workspace NAME</td>
+<td style="text-align:center">指定工作空间文件XXX.xcworkspace</td>
+</tr>
+<tr>
+<td>-scheme NAME</td>
+<td style="text-align:center">指定构建工程名称</td>
+</tr>
+<tr>
+<td>-configuration [Debug/Release]</td>
+<td style="text-align:center">选择Debug或者Release构建</td>
+</tr>
+<tr>
+<td>-sdk NAME</td>
+<td style="text-align:center">指定编译时使用的SDK</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>使用xcodebuild -exportArchive [-optionName]… .archive包导出ipa文件</p>
+<p>xcodebuild -exportArchive -archivePath /Users/UserName/Desktop/App/archive/XXX.xcarchive -exportPath /Users/UserName/Desktop/App/ipa/ -exportOptionsPlist /Users/UserName/Desktop/App/XXX.plist</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-archivePath</td>
+<td style="text-align:center">选择要导出的.xcarchive包路径</td>
+</tr>
+<tr>
+<td>-exportPath</td>
+<td style="text-align:center">导出ipa保存目录</td>
+</tr>
+<tr>
+<td>-exportOptionsPlist</td>
+<td style="text-align:center">导出过程中需要的配置文件路径</td>
+</tr>
+</tbody>
+</table>
+<p>配置文件简单说明,需要更多的配置文件说明请看官方文档</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;
+&lt;plist version=&quot;1.0&quot;&gt;
+&lt;dict&gt;
+&lt;key&gt;teamID&lt;/key&gt;
+&lt;string&gt;88888*****&lt;/string&gt;
+&lt;key&gt;method&lt;/key&gt;
+&lt;string&gt;app-store&lt;/string&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre><table>
+<thead>
+<tr>
+<th>配置文件key</th>
+<th style="text-align:center">配置文件value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>teamID</td>
+<td style="text-align:center">选择相对应得证书ID（找ios开发提供）</td>
+</tr>
+<tr>
+<td>method</td>
+<td style="text-align:center">导出ipa包类型:[app-store, ad-hoc, package, enterprise, development, developer-id] （测试环境包的话用development）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="编写构建脚本"><a href="#编写构建脚本" class="headerlink" title="编写构建脚本"></a>编写构建脚本</h3><p>构建脚本是用python写的，脚本内容如下：</p>
+<pre><code>#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os
+import time
+
+#******************需要手动填写***********************
+#工作空间
+workspaceName=&quot;XXX&quot; + &quot;.xcworkspace&quot;
+#构建工程
+#schemeNames={&quot;XXX&quot;,&quot;XXX&quot;,&quot;XXX&quot;}
+schemeNames={&quot;XXX&quot;}
+#***************************************************
+
+#获取当前时间并格式化
+dateTime=time.strftime(&quot;%Y-%m-%d-%H-%M-%S&quot;, time.localtime());
+
+#获取当前目录路径
+workspaceDirPath=os.getcwd()
+#获取当前桌面路径
+desktopPath=os.path.join(os.path.expanduser(&quot;~&quot;), &apos;Desktop&apos;)
+desktopPath2=os.path.expanduser(&quot;~/Desktop&quot;)
+
+#最后生成基础目录
+basePath=desktopPath+&quot;/App&quot;+dateTime
+#archivePath目录
+archivePath=basePath+&quot;/archive&quot;
+if os.path.exists(archivePath)==False:
+os.makedirs(archivePath)
+#exportPath目录
+exportPath=basePath+&quot;/ipa&quot;
+if os.path.exists(exportPath)==False:
+os.makedirs(exportPath)
+
+for schemeName in schemeNames:
+#print(schemeName)
+#编译版本信息
+sdkName=&quot;iphoneos10.2&quot; #真机编译根据mac当前安装的SKD填写，不知道当前安装的是什么SDK版本使用xcodebuild -showsdks命令查看
+configurationName=&quot;Debug&quot; #debug版本[Debug|Release]，使用xcodebuild -list查看configuration支持的类型
+#BaseCommand
+baseCommand=&quot; -workspace &quot;+workspaceName+&quot; -scheme &quot;+schemeName+&quot; -configuration &quot;+configurationName+&quot; -sdk &quot;+sdkName
+#清除编译的app
+xcodebuild_clean=&quot;xcodebuild clean&quot;+baseCommand
+#查看项目全部的targets，schemes和configurations
+xcodebuild_list=&quot;xcodebuild -list&quot;
+#编译
+xcodebuild_build=&quot;xcodebuild build&quot;+baseCommand
+#查看全部的SDK
+xcodebuild_showsdks=&quot;xcodebuild -showsdks&quot;
+#archivePath命令
+archivePathOption=&quot; -archivePath &quot;+archivePath+&quot;/&quot;+schemeName+&quot;.xcarchive&quot;
+#exportPath命令
+exportPathOption=&quot; -exportPath &quot;+exportPath+&quot;/&quot;
+#指定exportOptionsPlist文件路径
+exportOptionsPlistOption=&quot; -exportOptionsPlist &quot;+workspaceDirPath+&quot;/BuildAllApp.plist&quot;
+#编译并生成.archive包
+xcodebuild_archive=&quot;xcodebuild archive&quot;+archivePathOption+baseCommand
+#.archive包导出ipa包
+xcodebuild_exportArchive=&quot;xcodebuild -exportArchive&quot;+archivePathOption+exportPathOption+exportOptionsPlistOption
+</code></pre><h3 id="Jenkins中构建"><a href="#Jenkins中构建" class="headerlink" title="Jenkins中构建"></a>Jenkins中构建</h3><p>期待已久的构建终于成功了，吐血啊~~~~</p>
+<p><img src="https://i.imgur.com/WBjw9QB.png" alt="配置构建Job"></p>
+<p>生成的ipa包即可获取到了</p>
+<p><img src="https://i.imgur.com/Z7xcFCj.png" alt="配置构建Job"></p>
+<h1 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h1><h3 id="执行pod-install报错"><a href="#执行pod-install报错" class="headerlink" title="执行pod install报错"></a>执行pod install报错</h3><blockquote>
+<p>报错信息：[!] Invalid <code>Podfile</code> file: incompatible character encodings: UTF-8 and ASCII-8BIT. Updating CocoaPods might fix the issue.</p>
+</blockquote>
+<p><strong>解决方法：</strong>这是由于编码格式导致的，在终端输入如下export LC_CTYPE=”en_US.UTF-8”</p>
+<h3 id="执行pod-setup卡着不动"><a href="#执行pod-setup卡着不动" class="headerlink" title="执行pod setup卡着不动"></a>执行pod setup卡着不动</h3><p>原因可能有好几种:</p>
+<blockquote>
+<p>淘宝镜像已经不可用了</p>
+</blockquote>
+<p>需要使用最新的ruby镜像(<a href="https://gems.ruby-china.org/" target="_blank" rel="noopener">https://gems.ruby-china.org/</a>)</p>
+<p>需要的命令行：</p>
+<pre><code>$ gem sources -r https://rubygems.org/ （移除旧版本的镜像，如果你不知道你电脑上目前用的是什么镜像，可用  $ gem sources -l  来查看）
+$ gem sources -a https://gems.ruby-china.org/ （增加可用的镜像）
+$ gem sources -l  （用来检查使用替换镜像位置成功）
+</code></pre><blockquote>
+<p>依赖的第三方库正在下载，可能比较大，加上网络原因，需要比较长的时间</p>
+</blockquote>
+<p>输入”cd ~/.cocoapods/“命令行跳到cocoapods文件夹内，执行”du -sh *”查看正在下载的文件夹的大小</p>
+<h3 id="jenkins构建时提示pod-command-not-found"><a href="#jenkins构建时提示pod-command-not-found" class="headerlink" title="jenkins构建时提示pod command not found"></a>jenkins构建时提示pod command not found</h3><p>错误提示信息：</p>
+<pre><code>+ pod update --no-repo-update
+/Users/Shared/Jenkins/tmp/hudson2918422419647221708.sh: line 11: pod: command not found
+Build step &apos;Execute shell&apos; marked build as failure
+Finished: FAILURE
+</code></pre><p>但直接在终端下执行此命令正常</p>
+<p><strong>解决办法：</strong>是由于jenkins构建时不会加载所需的环境变量，需要执行<code>export PATH=/Users/XXX/Development/apache-tomcat-8.0.29/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/XXX/Development/xcode_shell:/Users/XXX/.rvm/bin</code></p>
+<p>PATH的内容可以从终端执行echo $PATH获取<br><img src="https://i.imgur.com/7JbDfKU.png" alt="FQA"></p>
+<h3 id="xcodebuild-codesign”seckey-api-returned-25308″"><a href="#xcodebuild-codesign”seckey-api-returned-25308″" class="headerlink" title="xcodebuild codesign”seckey api returned: -25308″"></a>xcodebuild codesign”seckey api returned: -25308″</h3><p>在jenkins构建时，执行xcodebuild build命令最后会出现如下错误：</p>
+<p><img src="https://i.imgur.com/BQ3nuS2.png" alt="FQA"></p>
+<p>而在MAC OS那台服务器上执行此命令正常</p>
+<p><strong>解决办法：</strong>由于Xcodebuild命令打包时会调用Codesign进行签名，而此错误就是由于无法使用证书授权签名所致，可以在脚本中添加解锁。<br>执行命令security list-keychains</p>
+<p><img src="https://i.imgur.com/f2uSBxG.png" alt="FQA"></p>
+<p>这里由于我的签名证书是在登陆选项处（通过钥匙串查看），选择login.keychain-db</p>
+<p><img src="https://i.imgur.com/CA9vE1W.png" alt="FQA"></p>
+
+      
+    </div>
+    
+    
+    
+
+      <div>
+        
+          <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:14px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+
+        
+      </div>
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>客官，打赏一下 ！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/images/wechatpay.jpg" alt="Cappuccino 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/images/alipay.jpg" alt="Cappuccino 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Jenkins、ios/" rel="tag"><i class="fa fa-tag"></i> Jenkins、ios</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/09/JVM堆内存回收流程图/" rel="next" title="JVM堆内存回收流程图">
+                <i class="fa fa-chevron-left"></i> JVM堆内存回收流程图
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zMjk5MS85NTUz"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/geeker2.png"
+                alt="Cappuccino" />
+            
+              <p class="site-author-name" itemprop="name">Cappuccino</p>
+              <p class="site-description motion-element" itemprop="description"><div style="font-size:12px"><br>我们不怕目标定得高远<br><br>只怕没有追寻的勇气、热情和执著<br><br>只要心头时时燃烧着坚定的信念<br><br>一往无前地行进下去<br><br>就会惊讶地发现<br><br>很多所谓的远方其实并不遥远</div></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/kuangay" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="http://blog.csdn.net/kuangay" target="_blank" title="csdn">
+                      
+                        <i class="fa fa-fw fa-globe"></i>csdn</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://www.jianshu.com/users/336ae108f3af/timeline" target="_blank" title="jianshu">
+                      
+                        <i class="fa fa-fw fa-globe"></i>jianshu</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:hero_crazy007@163.com" target="_blank" title="Email">
+                      
+                        <i class="fa fa-fw fa-globe"></i>Email</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                友情链接
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://testerhome.com/" title="TesterHome" target="_blank">TesterHome</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://bbs.51testing.com/forum.php" title="51testing" target="_blank">51testing</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.testwo.com/" title="测试窝" target="_blank">测试窝</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.diggerplus.org/" title="DiggerPlus" target="_blank">DiggerPlus</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.w3school.com.cn/" title="w3cschool" target="_blank">w3cschool</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.infoq.com/cn/" title="InfoQ" target="_blank">InfoQ</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://gitbook.cn/" title="GitChat" target="_blank">GitChat</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.oschina.net/" title="开源中国" target="_blank">开源中国</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://vuefe.cn/" title="Vue.js" target="_blank">Vue.js</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://element.eleme.io/#/zh-CN" title="ElementUI" target="_blank">ElementUI</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#为什么我们需要持续集成"><span class="nav-number">2.</span> <span class="nav-text">为什么我们需要持续集成</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#持续化集成工具——Jenkins"><span class="nav-number">3.</span> <span class="nav-text">持续化集成工具——Jenkins</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Jenkins安装"><span class="nav-number">4.</span> <span class="nav-text">Jenkins安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC系统安装Jenkins"><span class="nav-number">4.0.1.</span> <span class="nav-text">MAC系统安装Jenkins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装所需插件"><span class="nav-number">4.0.2.</span> <span class="nav-text">安装所需插件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置构建Job"><span class="nav-number">5.</span> <span class="nav-text">配置构建Job</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设置General参数"><span class="nav-number">5.0.1.</span> <span class="nav-text">设置General参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置源码管理"><span class="nav-number">5.0.2.</span> <span class="nav-text">设置源码管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置构建触发器"><span class="nav-number">5.0.3.</span> <span class="nav-text">设置构建触发器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建环境设置"><span class="nav-number">5.0.4.</span> <span class="nav-text">构建环境设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构建"><span class="nav-number">5.0.5.</span> <span class="nav-text">构建</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#iOS自动化打包命令"><span class="nav-number">6.</span> <span class="nav-text">iOS自动化打包命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装CocoaPods"><span class="nav-number">6.0.1.</span> <span class="nav-text">安装CocoaPods</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ios自动构建命令–xcodebuild命令"><span class="nav-number">6.0.2.</span> <span class="nav-text">ios自动构建命令–xcodebuild命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写构建脚本"><span class="nav-number">6.0.3.</span> <span class="nav-text">编写构建脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Jenkins中构建"><span class="nav-number">6.0.4.</span> <span class="nav-text">Jenkins中构建</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#遇到的坑"><span class="nav-number">7.</span> <span class="nav-text">遇到的坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#执行pod-install报错"><span class="nav-number">7.0.1.</span> <span class="nav-text">执行pod install报错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行pod-setup卡着不动"><span class="nav-number">7.0.2.</span> <span class="nav-text">执行pod setup卡着不动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jenkins构建时提示pod-command-not-found"><span class="nav-number">7.0.3.</span> <span class="nav-text">jenkins构建时提示pod command not found</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#xcodebuild-codesign”seckey-api-returned-25308″"><span class="nav-number">7.0.4.</span> <span class="nav-text">xcodebuild codesign”seckey api returned: -25308″</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<div class="copyright">&copy; 2017 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Cappuccino</span>
+
+  
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    
+      <span class="post-meta-item-text">Site words total count&#58;</span>
+    
+    <span title="Site words total count">17.6k</span>
+  
+</div>
+
+
+
+    <div class="powered-by">
+         <i class="fa fa-user-md"></i><span id="busuanzi_container_site_uv" style="display: inline;">
+    访问用户：<span id="busuanzi_value_site_uv"></span><span class="post-meta-divider">|</span>
+    </span>
+    </div>
+
+  <div class="powered-by">
+    <i class="fa fa-eye"></i><span id="busuanzi_container_site_pv" style="display: inline;">
+     访问量：<span id="busuanzi_value_site_pv"></span><span class="post-meta-divider">|</span>
+    </span>
+</div>
+
+<!--<div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+-->
+
+
+
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <i class="fa fa-pencil"></i><span class="post-count" style="display: inline;"> 博客全站共 17.6k 字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("kt2uuc1xCJQXPoGTa575EDle-gzGzoHsz", "oVsPiJhDR7L6BmjhWBOCpQnQ");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
